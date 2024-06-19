@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
@@ -41,4 +42,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "    AND nn.nspname = rs.schemaname\n" +
             "    AND nn.nspname <> 'information_schema';\n")
     ArrayList<Object[]> executeMetricsQuery();
+
+    List<Employee> findAll();
 }
