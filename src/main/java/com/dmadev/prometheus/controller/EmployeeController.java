@@ -28,18 +28,5 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping("/execute-query")
-    public ResponseEntity<String> executeAndReturnQueryResults() {
-        try {
-            List<Object[]> queryResults = employeeService.executeAndLogQueryResults();
 
-            // Собираем все строки лога в одну строку
-            String logMessages = queryResults.stream()
-                    .map(result -> "Query result: " + Arrays.toString(result))
-                    .collect(Collectors.joining("\n"));
-            return ResponseEntity.ok(logMessages);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 }

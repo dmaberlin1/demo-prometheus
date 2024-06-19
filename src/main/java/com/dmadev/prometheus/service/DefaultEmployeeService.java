@@ -19,14 +19,7 @@ public class DefaultEmployeeService implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
 
-    @Transactional(readOnly = true)
-    public List<Object[]> executeAndLogQueryResults() {
-        List<Object[]> queryResults = employeeRepository.executeMetricsQuery();
-        for (Object[] result : queryResults) {
-            log.debug("Query result: {}", Arrays.toString(result));
-        }
-        return queryResults;
-    }
+
 
     @Override
     @Transactional(readOnly = true)

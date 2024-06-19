@@ -1,5 +1,6 @@
 package com.dmadev.prometheus.service;
 
+import com.dmadev.prometheus.api.response.DatabaseMetricResult;
 import com.dmadev.prometheus.repository.EmployeeRepository;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tags;
@@ -14,4 +15,6 @@ import java.util.List;
 public interface DatabaseMetricsService {
 
     public void collectDatabaseMetrics();
+
+    public List<DatabaseMetricResult> getQueryResults();
 }
