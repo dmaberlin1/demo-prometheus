@@ -4,7 +4,7 @@ import com.dmadev.prometheus.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
@@ -40,5 +40,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "         JOIN pg_namespace nn ON cc.relnamespace = nn.oid\n" +
             "    AND nn.nspname = rs.schemaname\n" +
             "    AND nn.nspname <> 'information_schema';\n")
-    List<Object[]> executeCustomQuery();
+    ArrayList<Object[]> executeMetricsQuery();
 }
