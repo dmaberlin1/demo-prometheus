@@ -28,6 +28,56 @@ services:
         aliases:
           - grafana
 
+  node-exporter:
+    image: prom/node-exporter
+    networks:
+      - monitoring
+    ports:
+      - 9100:9100
+
+
+#  postgres-exporter:
+#    image: quay.io/prometheuscommunity/postgres-exporter
+#    command: --config.file=/etc/postgres_exporter/postgres_exporter.yml
+#    ports:
+#      - "9187:9187"
+#    environment:
+#      DATA_SOURCE_NAME: postgresql://postgresUserName:postgresPassword@host.docker.internal:5432/mydb?sslmode=disable
+#      PG_EXPORTER_METRIC_PREFIX: 'myMetricsPrefix_'
+#    volumes:
+#      - ./docker/development/postgres_exporter.yml:/etc/postgres_exporter/postgres_exporter.yml
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '18080:8080'
+
+  postgres:
+    image: 'postgres:16.2'
+    environment:
+      - POSTGRES_DB=aia_perf1
+      - POSTGRES_PASSWORD=Postgres01
+      - POSTGRES_USER=postgres
+      - TZ=Europe/Kiev
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_logs:/var/log/postgresql
+    command:
+      -c logging_collector=on
+      -c log_directory=/var/log/postgresql
+      -c log_filename=postgresql-%Y-%m-%d_%H%M%S.log
+      -c log_min_error_statement=error
+      -c log_autovacuum_min_duration=0
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+
+
   #
   #  grafana:
   #    build: 'config/grafana'
@@ -62,30 +112,6 @@ services:
   #
 
 
-
-  postgres:
-    image: 'postgres:16.2'
-    environment:
-      - POSTGRES_DB=aia_perf1
-      - POSTGRES_PASSWORD=Postgres01
-      - POSTGRES_USER=postgres
-      - TZ=Europe/Kiev
-    ports:
-      - '5433:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - postgres_logs:/var/log/postgresql
-    command:
-      -c logging_collector=on
-      -c log_directory=/var/log/postgresql
-      -c log_filename=postgresql-%Y-%m-%d_%H%M%S.log
-      -c log_min_error_statement=error
-      -c log_autovacuum_min_duration=0
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 2G
 
 
 
