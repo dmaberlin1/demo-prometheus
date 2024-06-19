@@ -12,3 +12,11 @@ public final class DatabaseMetricResult {
     private Float file_size_b;
     private Float data_size_b;
 }
+
+//schemaname: Название схемы таблицы.
+// tablename: Название таблицы.
+//reltuples: Количество строк в таблице.
+//relpages: Количество страниц в таблице.
+//bs: Размер блока (block size) базы данных.
+//file_size_b: Размер файла таблицы в байтах.
+//data_size_b: Размер данных таблицы в байтах.

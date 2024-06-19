@@ -35,17 +35,23 @@ services:
     ports:
       - 9100:9100
 
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter
+    container_name: postgres-exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable"
+      PG_EXPORTER_EXTEND_QUERY_PATH: "/queries/queries.yaml"
+      PG_EXPORTER_AUTO_DISCOVER_DATABASES: "true"
+      PG_EXPORTER_EXCLUDE_DATABASES: "template0,template1"
+      PG_EXPORTER_CONSTANT_LABELS: "cluster_name=local"
+    volumes:
+    - ./postgres-exporter/:/queries
+    ports:
+    - 9187:9187
+    networks:
+    - monitoring
 
-#  postgres-exporter:
-#    image: quay.io/prometheuscommunity/postgres-exporter
-#    command: --config.file=/etc/postgres_exporter/postgres_exporter.yml
-#    ports:
-#      - "9187:9187"
-#    environment:
-#      DATA_SOURCE_NAME: postgresql://postgresUserName:postgresPassword@host.docker.internal:5432/mydb?sslmode=disable
-#      PG_EXPORTER_METRIC_PREFIX: 'myMetricsPrefix_'
-#    volumes:
-#      - ./docker/development/postgres_exporter.yml:/etc/postgres_exporter/postgres_exporter.yml
+
 
   adminer:
     image: adminer
@@ -76,6 +82,15 @@ services:
         limits:
           cpus: '2.0'
           memory: 2G
+
+volumes:
+  postgres_data:
+  postgres_logs:
+  prometheus-data:
+  grafana-storage: { }
+
+networks:
+  monitoring:
 
 
   #
@@ -112,16 +127,5 @@ services:
   #
 
 
-
-
-
-volumes:
-  postgres_data:
-  postgres_logs:
-  prometheus-data:
-  grafana-storage: { }
-
-networks:
-  monitoring:
-
 #docker-compose up --build
+#docker-compose up --d

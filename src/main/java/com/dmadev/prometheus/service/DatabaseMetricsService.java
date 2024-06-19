@@ -14,7 +14,5 @@ import java.util.List;
 
 public interface DatabaseMetricsService {
 
-    public void collectDatabaseMetrics();
-
     public List<DatabaseMetricResult> getQueryResults();
 }
