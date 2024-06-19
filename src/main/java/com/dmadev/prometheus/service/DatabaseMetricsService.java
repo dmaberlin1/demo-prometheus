@@ -1,19 +1,20 @@
 package com.dmadev.prometheus.service;
 
+import com.dmadev.prometheus.api.response.DatabaseMetricResult;
 import com.dmadev.prometheus.repository.EmployeeRepository;
-import io.prometheus.client.CollectorRegistry;
-import lombok.Data;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
+import io.micrometer.core.instrument.Timer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
-@Data
-public class DatabaseMetricsService {
-    private final EmployeeRepository employeeRepository;
-    // Пример метрик для размера данных и количества записей
-    private final Counter dataSizeMetric = Counter.build()
-            .name("data_size_bytes")
-            .help("Size of data in bytes")
-            .labelNames("schema", "table")
-            .register();
+import java.util.List;
 
+
+public interface DatabaseMetricsService {
+
+    public void collectDatabaseMetrics();
+
+    public List<DatabaseMetricResult> getQueryResults();
 }
