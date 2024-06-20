@@ -59,7 +59,6 @@ public class DefaultDatabaseMetricsRepository implements DatabaseMetricsReposito
         });
     }
 
-
 //  @Override   //
 //    public List<DatabaseMetricResult> executeMetricsQuery() {
 //        return jdbcTemplate.query(SQL_QUERY, new BeanPropertyRowMapper<>(DatabaseMetricResult.class));
