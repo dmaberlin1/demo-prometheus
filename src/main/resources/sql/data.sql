@@ -14,6 +14,7 @@ alter table public.employees
 create index if not exists idx_employees_last_name
     on public.employees (last_name);
 
+
 INSERT INTO employees (id, first_name, last_name, hire_date, salary)
 VALUES (1, 'John', 'Doe', '2023-01-01', 50000.00),
        (2, 'Jane', 'Smith', '2023-01-02', 60000.00),

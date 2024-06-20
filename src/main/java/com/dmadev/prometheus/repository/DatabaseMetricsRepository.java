@@ -1,6 +1,6 @@
 package com.dmadev.prometheus.repository;
 
-import com.dmadev.prometheus.api.response.DatabaseMetricResult;
+import com.dmadev.prometheus.dto.DatabaseMetricResult;
 
 import java.util.List;
 
