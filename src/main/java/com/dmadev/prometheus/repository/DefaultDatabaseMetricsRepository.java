@@ -41,7 +41,7 @@ public class DefaultDatabaseMetricsRepository implements DatabaseMetricsReposito
 
 
     @Override
-    public List<DatabaseMetricResult> executeMetricsQuery() {
+    public   List<DatabaseMetricResult> executeMetricsQuery() {
         return jdbcTemplate.query(SQL_QUERY, rs -> {
             List<DatabaseMetricResult> results = new ArrayList<>();
             while (rs.next()) {
@@ -59,7 +59,8 @@ public class DefaultDatabaseMetricsRepository implements DatabaseMetricsReposito
         });
     }
 
-//  @Override
+
+//  @Override   //
 //    public List<DatabaseMetricResult> executeMetricsQuery() {
 //        return jdbcTemplate.query(SQL_QUERY, new BeanPropertyRowMapper<>(DatabaseMetricResult.class));
 //    }

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 @Component
 @Slf4j
-public class DatabaseCheckMetaData {
+public final class DatabaseCheckMetaData {
 
     public static void checkMetaData() {
         try (Connection connection = ConnectionManager.get()) {

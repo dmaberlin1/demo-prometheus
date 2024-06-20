@@ -1,7 +1,7 @@
 package com.dmadev.prometheus.controller;
 
 import com.dmadev.prometheus.api.response.DatabaseMetricResult;
-import com.dmadev.prometheus.service.DefaultDatabaseMetricsService;
+import com.dmadev.prometheus.service.DatabaseMetricsService;
 import com.dmadev.prometheus.util.DatabaseCheckMetaData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MetricsController {
 
-    private final DefaultDatabaseMetricsService defaultDatabaseMetricsService;
+    private final DatabaseMetricsService databaseMetricsService;
 
     @GetMapping("/query")
     public ResponseEntity<String> executeAndReturnQueryResults() {
         try {
             DatabaseCheckMetaData.checkMetaData();
-            List<DatabaseMetricResult> queryResults = defaultDatabaseMetricsService.getQueryResults();
+            List<DatabaseMetricResult> queryResults = databaseMetricsService.getQueryResults();
             String logMessages = queryResults.stream()
                     .map(DatabaseMetricResult::toString)
                     .collect(Collectors.joining("\n"));

@@ -6,12 +6,10 @@ import com.dmadev.prometheus.util.DatabaseCheckMetaData;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,12 +17,12 @@ import java.util.List;
 public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
 
 
-    private DatabaseMetricsRepository databaseMetricsRepository;
+    private final DatabaseMetricsRepository databaseMetricsRepository;
 
     @Scheduled(fixedRate = 60000)  // 60 sec -  to dev
     public void collectDatabaseMetrics() {
-        List<DatabaseMetricResult> results = databaseMetricsRepository.executeMetricsQuery();
         DatabaseCheckMetaData.checkMetaData();
+        List<DatabaseMetricResult> results = databaseMetricsRepository.executeMetricsQuery();
         results.forEach(result -> {
             String schemaName = result.getSchemaname();
             String tableName = result.getTablename();

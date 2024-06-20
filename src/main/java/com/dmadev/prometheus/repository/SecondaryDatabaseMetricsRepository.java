@@ -2,26 +2,20 @@ package com.dmadev.prometheus.repository;
 
 import com.dmadev.prometheus.api.response.DatabaseMetricResult;
 import com.dmadev.prometheus.util.ConnectionManager;
-import com.dmadev.prometheus.util.DatabaseCheckMetaData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
-//@Primary
-public class SecondaryDatabaseMetricsRepository {
-//        implements DatabaseMetricsRepository
+@Repository
+//@Primary //  - для дебага, поочереди меняем c DefaultDatabaseMetricsRepository
+public class SecondaryDatabaseMetricsRepository implements DatabaseMetricsRepository {
+
 
     private static final String SQL_QUERY = "SELECT rs.schemaname, tablename, cc.reltuples, cc.relpages, bs, "
             + "(pg_relation_size(pst.relid))::FLOAT AS file_size_b, "
@@ -48,7 +42,6 @@ public class SecondaryDatabaseMetricsRepository {
 
 
     public List<DatabaseMetricResult> executeMetricsQuery() {
-//           DatabaseCheckMetaData.checkMetaData();
         List<DatabaseMetricResult> results = new ArrayList<>();
         try(var connection= ConnectionManager.get();
 
@@ -71,7 +64,6 @@ public class SecondaryDatabaseMetricsRepository {
         }catch ( Exception exception){
             log.warn(String.valueOf(exception));
             }
-        ConnectionManager.closePool();
         return results;
     }
 
