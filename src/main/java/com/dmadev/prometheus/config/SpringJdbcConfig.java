@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.sql.DriverManager;
 
 @Configuration
 @ComponentScan("com.dmadev.prometheus")
