@@ -32,6 +32,7 @@ public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
 
 
 
+
         public void collectDatabaseMetrics() {
         List<DatabaseMetricResult> results = databaseMetricsRepository.executeMetricsQuery();
         results.forEach(result -> {
