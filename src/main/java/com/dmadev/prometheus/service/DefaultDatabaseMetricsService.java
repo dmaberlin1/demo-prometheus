@@ -17,18 +17,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @Slf4j
-//@RequiredArgsConstructor
+
 public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
 
     private final DatabaseMetricsRepository databaseMetricsRepository;
 
     private final AtomicLong rowCountGauge;
 
-//    @Autowired
-//    public void MetricsService(MeterRegistry meterRegistry){
-//        this.rowCountGauge = meterRegistry.gauge("custom_query_row_count",
-//                new AtomicLong(0));
-//    }
 
     public DefaultDatabaseMetricsService(MeterRegistry meterRegistry ,
                                          DatabaseMetricsRepository databaseMetricsRepository
