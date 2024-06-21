@@ -26,7 +26,7 @@ public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
 
     @Autowired
     public void MetricsService(MeterRegistry meterRegistry){
-        this.rowCountGauge = meterRegistry.gauge("random.number.metrics",
+        this.rowCountGauge = meterRegistry.gauge("custom_query_row_count",
                 new AtomicLong(0));
     }
 
