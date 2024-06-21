@@ -5,16 +5,13 @@ import com.dmadev.prometheus.repository.DatabaseMetricsRepository;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
