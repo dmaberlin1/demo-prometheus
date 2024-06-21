@@ -1,7 +1,6 @@
 package com.dmadev.prometheus.service;
 
 import com.dmadev.prometheus.dto.DatabaseMetricResult;
-import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

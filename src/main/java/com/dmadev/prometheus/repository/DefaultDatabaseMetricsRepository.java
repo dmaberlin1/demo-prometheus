@@ -1,19 +1,17 @@
 package com.dmadev.prometheus.repository;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import com.dmadev.prometheus.dto.DatabaseMetricResult;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-@Primary //  - для дебага, поочереди меняем c SecondaryDatabaseMetricsRepository
 public class DefaultDatabaseMetricsRepository implements DatabaseMetricsRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -37,21 +35,4 @@ public class DefaultDatabaseMetricsRepository implements DatabaseMetricsReposito
         return jdbcTemplate.query(SQL_QUERY, new BeanPropertyRowMapper<>(DatabaseMetricResult.class));
     }
 
-//    @Override
-//    public List<DatabaseMetricResult> executeMetricsQuery() {
-//        return jdbcTemplate.query(SQL_QUERY, rs -> {
-//            List<DatabaseMetricResult> results = new ArrayList<>();
-//            while (rs.next()) {
-//                DatabaseMetricResult result = new DatabaseMetricResult();
-//                result.setSchemaname(rs.getString("schemaname"));
-//                result.setTablename(rs.getString("tablename"));
-//                result.setRowCount(rs.getLong("rowCount"));
-//                results.add(result);
-//            }
-//            return results;
-//        });
-//    }
-
-
-    //eof
 }
