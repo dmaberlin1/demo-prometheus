@@ -1,18 +1,16 @@
 package com.dmadev.prometheus.service;
 
-import com.dmadev.prometheus.api.response.DatabaseMetricResult;
-import com.dmadev.prometheus.repository.EmployeeRepository;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Tags;
-import io.micrometer.core.instrument.Timer;
-import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
+import com.dmadev.prometheus.dto.DatabaseMetricResult;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
+@Service
 public interface DatabaseMetricsService {
 
     public List<DatabaseMetricResult> getQueryResults();
-}
+    public void collectDatabaseMetrics();
+
+    }

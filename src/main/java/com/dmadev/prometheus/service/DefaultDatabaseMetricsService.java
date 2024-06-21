@@ -1,46 +1,60 @@
 package com.dmadev.prometheus.service;
 
-import com.dmadev.prometheus.api.response.DatabaseMetricResult;
+import com.dmadev.prometheus.dto.DatabaseMetricResult;
 import com.dmadev.prometheus.repository.DatabaseMetricsRepository;
-import com.dmadev.prometheus.util.DatabaseCheckMetaData;
-import io.micrometer.core.instrument.Metrics;
-import io.micrometer.core.instrument.Tag;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
+import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.beans.ConstructorProperties;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
-@RequiredArgsConstructor
+
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
-
 
     private final DatabaseMetricsRepository databaseMetricsRepository;
 
-    @Scheduled(fixedRate = 60000)  // 60 sec -  to dev
-    public void collectDatabaseMetrics() {
-        DatabaseCheckMetaData.checkMetaData();
+
+    private final MeterRegistry meterRegistry;
+
+    private  AtomicLong rowCountGaugeMain;
+    private final AtomicLong rowCountGauge = new AtomicLong(0);
+
+
+
+    @PostConstruct
+    public void initialize() {
+        rowCountGaugeMain = meterRegistry.gauge("custom.query.row.count", new AtomicLong(0));
+        Gauge.builder("custom.query.row.count1", rowCountGauge, AtomicLong::get)
+                .description("Number of rows in the table")
+                .register(meterRegistry);
+    }
+
+        public void collectDatabaseMetrics() {
         List<DatabaseMetricResult> results = databaseMetricsRepository.executeMetricsQuery();
         results.forEach(result -> {
             String schemaName = result.getSchemaname();
             String tableName = result.getTablename();
-            float fileSize = result.getFile_size_b();
-            float dataSize = result.getData_size_b();
-            long relTuples = result.getReltuples();
-            long relPages = result.getRelpages();
-            int bs = result.getBs();
+            Long rowCount = result.getRowCount();
+            log.info(String.format("Schema: %s, Table: %s, Row Count: %,d", schemaName, tableName, rowCount));
 
-            // Register additional metrics
-            Metrics.gauge("custom.query.file.size", List.of(Tag.of("schema", schemaName), Tag.of("table", tableName)), fileSize);
-            Metrics.gauge("custom.query.data.size", List.of(Tag.of("schema", schemaName), Tag.of("table", tableName)), dataSize);
-            Metrics.gauge("custom.query.rel.tuples", List.of(Tag.of("schema", schemaName), Tag.of("table", tableName)), relTuples);
-            Metrics.gauge("custom.query.rel.pages", List.of(Tag.of("schema", schemaName), Tag.of("table", tableName)), relPages);
-            Metrics.gauge("custom.query.bs", List.of(Tag.of("schema", schemaName), Tag.of("table", tableName)), bs);
+            rowCountGaugeMain.set(rowCount);
+            rowCountGauge.set(rowCount);
+
         });
     }
-
 
     // For  REST API
     public List<DatabaseMetricResult> getQueryResults() {
@@ -48,7 +62,7 @@ public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
     }
 
 
-    //eof
+
 }
 
 
