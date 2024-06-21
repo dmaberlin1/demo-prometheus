@@ -5,16 +5,10 @@ import com.dmadev.prometheus.repository.DatabaseMetricsRepository;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
-import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -29,9 +23,8 @@ public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
 
     private final MeterRegistry meterRegistry;
 
-    private  AtomicLong rowCountGaugeMain;
+    private AtomicLong rowCountGaugeMain;
     private final AtomicLong rowCountGauge = new AtomicLong(0);
-
 
 
     @PostConstruct
@@ -42,7 +35,7 @@ public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
                 .register(meterRegistry);
     }
 
-        public void collectDatabaseMetrics() {
+    public void collectDatabaseMetrics() {
         List<DatabaseMetricResult> results = databaseMetricsRepository.executeMetricsQuery();
         results.forEach(result -> {
             String schemaName = result.getSchemaname();
@@ -56,12 +49,9 @@ public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
         });
     }
 
-    // For  REST API
     public List<DatabaseMetricResult> getQueryResults() {
         return databaseMetricsRepository.executeMetricsQuery();
     }
-
-
 
 }
 

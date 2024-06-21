@@ -1,4 +1,4 @@
-package com.dmadev.configuration;
+package com.dmadev.prometheus.configuration;
 
 import io.micrometer.core.aop.TimedAspect;
 import io.micrometer.core.instrument.MeterRegistry;
