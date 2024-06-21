@@ -76,6 +76,20 @@
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.12.0</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.hawkular.agent</groupId>
+            <artifactId>prometheus-scraper</artifactId>
+            <version>0.23.0.Final</version>
+        </dependency>
         <!--TESTING-->
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -87,6 +101,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>0.16.0</version>
         </dependency>
     </dependencies>
 

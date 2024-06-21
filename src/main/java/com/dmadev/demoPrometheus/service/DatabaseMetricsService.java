@@ -1,13 +1,12 @@
-package com.dmadev.prometheus.service;
+package com.dmadev.demoPrometheus.service;
 
-import com.dmadev.prometheus.dto.DatabaseMetricResult;
-import com.dmadev.prometheus.repository.DatabaseMetricsRepository;
-import io.micrometer.core.instrument.Gauge;
+import com.dmadev.demoPrometheus.api.constant.ApiConstants;
+import com.dmadev.demoPrometheus.dto.DatabaseMetricResult;
+import com.dmadev.demoPrometheus.repository.DatabaseMetricsRepository;
 import io.micrometer.core.instrument.MeterRegistry;
-import lombok.RequiredArgsConstructor;
+import io.micrometer.core.instrument.Tag;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -18,18 +17,20 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 @Slf4j
 
-public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
+public class DatabaseMetricsService {
 
     private final DatabaseMetricsRepository databaseMetricsRepository;
-
+    MeterRegistry meterRegistry;
     private final AtomicLong rowCountGauge;
+    public AtomicLong rowCountGaugeAlter = new AtomicLong(0);
 
 
-    public DefaultDatabaseMetricsService(MeterRegistry meterRegistry ,
-                                         DatabaseMetricsRepository databaseMetricsRepository
-                                        ) {
+    public DatabaseMetricsService(MeterRegistry meterRegistry,
+                                  DatabaseMetricsRepository databaseMetricsRepository
+    ) {
+        this.meterRegistry = meterRegistry;
         this.databaseMetricsRepository = databaseMetricsRepository;
-        this.rowCountGauge = meterRegistry.gauge("custom_query_row_count",
+        this.rowCountGauge = meterRegistry.gauge(ApiConstants.METRICS_QUERY_ROW_GAUGE,
                 new AtomicLong(0));
 
     }
@@ -40,10 +41,12 @@ public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
             String schemaName = result.getSchemaname();
             String tableName = result.getTablename();
             Long rowCount = result.getRowCount();
+            rowCountGaugeAlter.set(result.getRowCount());
             log.info(String.format("Schema: %s, Table: %s, Row Count: %,d", schemaName, tableName, rowCount));
-
+            this.meterRegistry.counter(ApiConstants.METRICS_REQUEST_IN_DB_FROM_DATABASE_METRICS_SERVICE_COUNT, List.of(
+                    Tag.of("schemaName", schemaName), Tag.of("tableName", tableName)
+            )).increment();
             rowCountGauge.set(rowCount);
-
         });
     }
 
@@ -51,8 +54,6 @@ public class DefaultDatabaseMetricsService implements DatabaseMetricsService {
     public List<DatabaseMetricResult> getQueryResults() {
         return databaseMetricsRepository.executeMetricsQuery();
     }
-
-
 
 }
 

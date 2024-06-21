@@ -1,4 +1,4 @@
-package com.dmadev.prometheus;
+package com.dmadev.demoPrometheus;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

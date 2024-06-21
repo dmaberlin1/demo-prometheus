@@ -1,7 +1,6 @@
-package com.dmadev.prometheus.sheduler;
+package com.dmadev.demoPrometheus.sheduler;
 
-import com.dmadev.prometheus.service.DatabaseMetricsService;
-
+import com.dmadev.demoPrometheus.service.DatabaseMetricsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
