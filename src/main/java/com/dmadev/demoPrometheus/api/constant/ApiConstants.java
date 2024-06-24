@@ -11,10 +11,19 @@ public class ApiConstants {
     public static final String METRICS_QUERY_ROW_GAUGE = "metrics_query_row_count_gauge";
     public static final String METRICS_QUERY_ROW_ALTER_GAUGE = "metrics_query_row_count_gauge_1";
 
-    private static final double GREEN_THRESHOLD = 0.75;
-    private static final double YELLOW_THRESHOLD = 0.8;
-    private static final double RED_THRESHOLD_LOW = 0.99;
-    private static final double RED_THRESHOLD_HIGH = 1.1;
+
+    //Based on user count on DB
+    //75%
+    public static final double GREEN_THRESHOLD = 75;
+
+    //80%
+    public static final double YELLOW_THRESHOLD = 80;
+
+    //99%
+    public static final double RED_THRESHOLD =99;
+
+    //111%
+    public static final double BLACK_THRESHOLD = 110;
 
 
 }

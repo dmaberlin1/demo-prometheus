@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 
 @Service
 @Slf4j
-public class AlertService {
+public final class AlertService {
+
+
    public void generateAlert(AlertLevel alertLevel, double value, LocalDateTime timestamp){
       Alert alert=new Alert();
        alert.setAlertLevel(alertLevel);

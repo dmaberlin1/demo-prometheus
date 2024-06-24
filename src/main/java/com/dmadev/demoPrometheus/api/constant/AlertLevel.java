@@ -4,5 +4,6 @@ public enum AlertLevel {
     GREEN,
     YELLOW,
     RED,
-    BLACK
+    BLACK,
+    NONE
 }

@@ -26,22 +26,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PrometheusClient {
         OkHttpClient client = new OkHttpClient();
-    String url = "http://localhost:8080/actuator/prometheus?includedNames=metrics_query_row_count_gauge";
+    private final static String url = "http://localhost:8080/actuator/prometheus?includedNames=metrics_query_row_count_gauge";
 
-
-//    public String doGetRequest() throws IOException {
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .build();
-//
-//        Response response = client.newCall(request).execute();
-//        log.info(String.valueOf(response));
-//        assert response.body() != null;
-//        return response.body().string();
-//    }
-
-
-    public double doGetRequestAlter() throws IOException {
+    public double getMetricRequest() throws IOException {
         Request request =new Request.Builder()
                 .url(url)
                 .get()
@@ -63,8 +50,6 @@ public class PrometheusClient {
         return value;
     }
 
-//    Объект MetricFamily хранит все метрики с одинаковым именем, но с разными тегами.
-//    Используйте metricFamily.getMetrics()
-//    для получения List<Metric> Используйте metric.getValue() для получения значения метрики.
+
     //eof
 }

@@ -36,7 +36,7 @@ public class MetricsController {
     public ResponseEntity<String> executeAndReturnQueryResults() {
         try {
 //            prometheusClient.doGetRequest();
-            prometheusClient.doGetRequestAlter();
+            prometheusClient.getMetricRequest();
         } catch (IOException e) {
             log.warn(e.toString());
 
