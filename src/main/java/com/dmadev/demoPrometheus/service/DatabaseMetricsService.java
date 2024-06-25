@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @Slf4j
-
 public final class DatabaseMetricsService {
 
     private final DatabaseMetricsRepository databaseMetricsRepository;

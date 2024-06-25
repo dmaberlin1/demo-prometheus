@@ -47,3 +47,8 @@ ThresholdEvaluationService покрыть тестами
 ###
 и тебе понадобится сервис, которій заполняет твою табличку фейковіми данніми. Сделай чтоб он срабатівал когда по ресту дернули его и останавливается так же.
 Для генерации советую использовать либку Java Faker
+
+
+
+
+curl -X POST http://localhost:8081/alerts -H "Content-Type: application/json" -d '{"level":"HIGH","value":123.45,"timestamp":"2024-06-25T12:00:00"}'

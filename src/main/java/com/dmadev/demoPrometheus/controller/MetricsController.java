@@ -26,23 +26,22 @@ public class MetricsController {
     PrometheusClient prometheusClient;
     MeterRegistry meterRegistry;
 
-    public MetricsController(DatabaseMetricsService databaseMetricsService, MeterRegistry meterRegistry,PrometheusClient prometheusClient) {
+    public MetricsController(DatabaseMetricsService databaseMetricsService, MeterRegistry meterRegistry, PrometheusClient prometheusClient) {
         this.databaseMetricsService = databaseMetricsService;
         this.meterRegistry = meterRegistry;
-        this.prometheusClient=prometheusClient;
+        this.prometheusClient = prometheusClient;
     }
 
     @GetMapping("/query")
     public ResponseEntity<String> executeAndReturnQueryResults() {
         try {
-//            prometheusClient.doGetRequest();
             prometheusClient.getMetricRequest();
         } catch (IOException e) {
             log.warn(e.toString());
 
         }
 
-        this.meterRegistry.counter(ApiConstants.METRICS_CONTROLLER_REST_COUNT,List.of())
+        this.meterRegistry.counter(ApiConstants.METRICS_CONTROLLER_REST_COUNT, List.of())
                 .increment();
         try {
             List<DatabaseMetricResult> queryResults = databaseMetricsService.getQueryResults();

@@ -1,8 +1,6 @@
 package com.dmadev.demoPrometheus.repository;
 
-
 import java.util.List;
-
 
 import com.dmadev.demoPrometheus.api.constant.ApiConstants;
 import com.dmadev.demoPrometheus.dto.DatabaseMetricResult;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class DatabaseMetricsRepository{
+public class DatabaseMetricsRepository {
 
     private final JdbcTemplate jdbcTemplate;
     MeterRegistry meterRegistry;
@@ -23,7 +21,7 @@ public class DatabaseMetricsRepository{
         this.meterRegistry = meterRegistry;
     }
 
-    private static final String SQL_QUERY ="SELECT\n" +
+    private static final String SQL_QUERY = "SELECT\n" +
             "    n.nspname AS schemaname,\n" +
             "    c.relname AS tablename,\n" +
             "    (SELECT count(*) FROM employees) AS row_count\n" +
@@ -37,7 +35,7 @@ public class DatabaseMetricsRepository{
 
 
     public List<DatabaseMetricResult> executeMetricsQuery() {
-        this.meterRegistry.counter(ApiConstants.METRICS_DATABASE_EMPLOYEES_COUNT,List.of()).increment();
+        this.meterRegistry.counter(ApiConstants.METRICS_DATABASE_EMPLOYEES_COUNT, List.of()).increment();
         return jdbcTemplate.query(SQL_QUERY, new BeanPropertyRowMapper<>(DatabaseMetricResult.class));
     }
 

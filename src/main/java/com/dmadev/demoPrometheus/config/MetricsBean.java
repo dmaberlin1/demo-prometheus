@@ -8,11 +8,10 @@ import io.micrometer.core.instrument.binder.MeterBinder;
 import org.springframework.context.annotation.Bean;
 
 
-
 public class MetricsBean {
 
     @Bean
-    MeterBinder meterBinder(DatabaseMetricsService databaseMetricsService){
+    MeterBinder meterBinder(DatabaseMetricsService databaseMetricsService) {
         return meterRegistry -> {
             Counter.builder(ApiConstants.METRICS_CONTROLLER_REST_COUNT)
                     .description("Count of requests to Metrics Controller")
@@ -24,12 +23,12 @@ public class MetricsBean {
 
             Counter.builder(ApiConstants.METRICS_REQUEST_IN_DB_FROM_DATABASE_METRICS_SERVICE_COUNT)
                     .description("Count of requests to db from DatabaseMetricsService")
-                    .tag("schemaName","tableName")
+                    .tag("schemaName", "tableName")
                     .register(meterRegistry);
 
             //TODO not working- find a solution
-            Gauge.builder(ApiConstants.METRICS_QUERY_ROW_ALTER_GAUGE,()-> databaseMetricsService.rowCountGaugeAlter.doubleValue())
-                    .description("Alter number of rows in the table emlpoyees")
+            Gauge.builder(ApiConstants.METRICS_QUERY_ROW_ALTER_GAUGE, () -> databaseMetricsService.rowCountGaugeAlter.doubleValue())
+                    .description("Alter number of rows in the table employees")
                     .register(meterRegistry);
 
         };

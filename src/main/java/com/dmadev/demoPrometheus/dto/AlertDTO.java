@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Alert {
+public class AlertDTO {
     private AlertLevel alertLevel;
     private double value;
     private LocalDateTime timestamp;

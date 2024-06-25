@@ -24,7 +24,7 @@ public final class ThresholdEvaluationService {
     private AlertLevel previousAlertLevel = AlertLevel.NONE;
 
 
-    //методы для навигации по карте: floorEntry, ceilingEntry, lowerEntry, и higherEntry
+    //методы для навигации по карте: floorEntry, ceilingEntry, lowerEntry,  higherEntry
     private static final NavigableMap<Double, AlertLevel> thresholds = new TreeMap<Double, AlertLevel>() {
         {
             put(ApiConstants.GREEN_THRESHOLD, AlertLevel.GREEN);
@@ -32,7 +32,7 @@ public final class ThresholdEvaluationService {
             put(ApiConstants.RED_THRESHOLD, AlertLevel.RED);
             put(ApiConstants.BLACK_THRESHOLD, AlertLevel.BLACK);
         }
-        };
+    };
 
 
     /**
@@ -41,18 +41,14 @@ public final class ThresholdEvaluationService {
     public void evaluateAndGenerateAlert() {
         double currentValue;
         try {
-            // Получение текущего значения метрики от клиента Prometheus
             currentValue = prometheusClient.getMetricRequest();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        // Определение текущего уровня алерта на основе значения метрики
         AlertLevel currentAlertLevel = determineAlertLevel(currentValue);
 
-        // Проверка, изменился ли уровень алерта и не является ли он NONE
         if (shouldGenerateAlert(currentAlertLevel)) {
-            // Генерация алерта при изменении уровня
             generateAlert(currentAlertLevel, currentValue);
 
             previousAlertLevel = currentAlertLevel;
@@ -68,7 +64,7 @@ public final class ThresholdEvaluationService {
     private AlertLevel determineAlertLevel(double value) {
         //запись с наибольшим ключом, который меньше или равен данному значению
         Map.Entry<Double, AlertLevel> entry = thresholds.floorEntry(value);
-        // Возвращаем уровень алерта, если запись найдена, иначе возвращаем уровень NONE
+        // return уровень алерта, если запись найдена, иначе возвращаем уровень NONE
         return entry != null ? entry.getValue() : AlertLevel.NONE;
     }
 
@@ -77,10 +73,9 @@ public final class ThresholdEvaluationService {
      * Метод для генерации алерта
      *
      * @param alertLevel уровень алерта
-     * @param value значение метрики
+     * @param value      значение метрики
      */
     private void generateAlert(AlertLevel alertLevel, double value) {
-        // Вызов метода alertService для генерации алерта
         alertService.generateAlert(alertLevel, value, LocalDateTime.now());
     }
 
@@ -91,8 +86,6 @@ public final class ThresholdEvaluationService {
      * @return true если необходимо сгенерировать алерт, иначе false
      */
     private boolean shouldGenerateAlert(AlertLevel currentAlertLevel) {
-        // Генерация алерта, если текущий уровень выше предыдущего уровня or previous is none
-
         return currentAlertLevel != previousAlertLevel &&
                 (previousAlertLevel == AlertLevel.NONE || currentAlertLevel.compareTo(previousAlertLevel) > 0);
     }

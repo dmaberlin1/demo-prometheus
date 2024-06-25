@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 public class DatabaseMetricsSheduler {
     private final DatabaseMetricsService databaseMetricsService;
 
-
     @Scheduled(fixedRate = 30_000)  // 30 sec - for development
-    private void updateMetrics(){
+    private void updateMetrics() {
         databaseMetricsService.collectDatabaseMetrics();
     }
 }

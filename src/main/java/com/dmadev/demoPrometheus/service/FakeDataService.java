@@ -16,14 +16,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @Slf4j
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class FakeDataService {
-    private EmployeeRepository employeeRepository;
-    private Random random;
+    private final EmployeeRepository employeeRepository;
+    private final Random random=new Random();
     Faker faker = new Faker();
+    private final AtomicBoolean isGenerating = new AtomicBoolean(false);
 
-    private AtomicBoolean isGenerating = new AtomicBoolean(false);
+
 
     /**
      * Метод для генерации указанного количества фейковых сотрудников и сохранения их в базе данных.
