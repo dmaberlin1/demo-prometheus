@@ -1,9 +1,11 @@
-CREATE TABLE IF NOT EXISTS public.employees (
-                                                id         BIGSERIAL PRIMARY KEY,
-                                                first_name VARCHAR(50),
-                                                last_name  VARCHAR(50),
-                                                hire_date  TIMESTAMP,
-                                                salary     NUMERIC(10, 2)
+create table if not exists public.employees
+(
+    id         bigint not null
+        primary key,
+    first_name varchar(50),
+    last_name  varchar(50),
+    hire_date  timestamp,
+    salary     numeric(10, 2)
 );
 
 alter table public.employees

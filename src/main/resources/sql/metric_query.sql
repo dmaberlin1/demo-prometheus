@@ -11,8 +11,8 @@ WHERE
   AND n.nspname NOT IN ('pg_catalog', 'information_schema')  -- исключаем системные схемы
   AND c.relname = 'employees'; -- фильтруем таблицу 'employees'
 
--- ORDER BY
---     pg_relation_size(c.oid) DESC;  -- сортировка по размеру таблицы
+ORDER BY
+    pg_relation_size(c.oid) DESC;  -- сортировка по размеру таблицы
 
 
 SELECT
