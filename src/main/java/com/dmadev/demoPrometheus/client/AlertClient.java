@@ -1,4 +1,4 @@
-package com.dmadev.demoPrometheus.service;
+package com.dmadev.demoPrometheus.client;
 
 import com.dmadev.demoPrometheus.api.constant.AlertLevel;
 import com.dmadev.demoPrometheus.dto.AlertDTO;
@@ -11,21 +11,20 @@ import java.time.LocalDateTime;
 
 @Service
 @Slf4j
-public final class AlertService {
+public final class AlertClient {
 
     private final RestTemplate restTemplate;
     private final String alertAppUrl;
     String alerts_uri = "/alerts";
 
-    public AlertService(RestTemplate restTemplate,
-                        @Value("${alert.app.url}") String alertAppUrl) {
+    public AlertClient(RestTemplate restTemplate,
+                       @Value("${alert.app.url}") String alertAppUrl) {
         this.restTemplate = restTemplate;
         this.alertAppUrl = alertAppUrl;
     }
 
 
     public void generateAlert(AlertLevel alertLevel, double value, LocalDateTime timestamp) {
-
         AlertDTO alert = new AlertDTO(alertLevel, value, timestamp);
         sendAlert(alert);
     }
