@@ -2,6 +2,7 @@ package com.dmadev.demoPrometheus.service;
 
 import com.dmadev.demoPrometheus.api.constant.AlertLevel;
 import com.dmadev.demoPrometheus.api.constant.ApiConstants;
+import com.dmadev.demoPrometheus.client.AlertClient;
 import com.dmadev.demoPrometheus.client.PrometheusClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,12 @@ import java.util.TreeMap;
 public final class ThresholdEvaluationService {
 
     private final PrometheusClient prometheusClient;
-    private final AlertService alertService;
+    private final AlertClient alertService;
 
     private AlertLevel previousAlertLevel = AlertLevel.NONE;
 
 
-    //методы для навигации по карте: floorEntry, ceilingEntry, lowerEntry,  higherEntry
+    //methods for map navigation: floorEntry, ceilingEntry, lowerEntry, higherEntry
     private static final NavigableMap<Double, AlertLevel> thresholds = new TreeMap<Double, AlertLevel>() {
         {
             put(ApiConstants.GREEN_THRESHOLD, AlertLevel.GREEN);
@@ -36,7 +37,7 @@ public final class ThresholdEvaluationService {
 
 
     /**
-     * Метод для оценки текущего значения метрики и генерации алертов при необходимости
+     * Method for estimating the current value of the metric and generating alerts if necessary
      */
     public void evaluateAndGenerateAlert() {
         double currentValue;
@@ -50,16 +51,15 @@ public final class ThresholdEvaluationService {
 
         if (shouldGenerateAlert(currentAlertLevel)) {
             generateAlert(currentAlertLevel, currentValue);
-
             previousAlertLevel = currentAlertLevel;
         }
     }
 
     /**
-     * Метод для определения уровня алерта на основе значения метрики
+     * Method for determining the alert level based on the value of a metric
      *
-     * @param value значение метрики
-     * @return уровень алерта
+     * @param value metric value
+     * @return alert level
      */
     private AlertLevel determineAlertLevel(double value) {
         //запись с наибольшим ключом, который меньше или равен данному значению
@@ -70,24 +70,26 @@ public final class ThresholdEvaluationService {
 
 
     /**
-     * Метод для генерации алерта
+     * Method for generating an alert
      *
-     * @param alertLevel уровень алерта
-     * @param value      значение метрики
+     * @param alertLevel alert level
+     * @param value metric value
      */
     private void generateAlert(AlertLevel alertLevel, double value) {
         alertService.generateAlert(alertLevel, value, LocalDateTime.now());
     }
 
     /**
-     * Метод для проверки необходимости генерации алерта
+     * Method to check if an alert should be generated
      *
-     * @param currentAlertLevel текущий уровень алерта
-     * @return true если необходимо сгенерировать алерт, иначе false
+     * @param currentAlertLevel current alert level
+     * @return true if it is necessary to generate an alert, otherwise false
      */
     private boolean shouldGenerateAlert(AlertLevel currentAlertLevel) {
         return currentAlertLevel != previousAlertLevel &&
-                (previousAlertLevel == AlertLevel.NONE || currentAlertLevel.compareTo(previousAlertLevel) > 0);
+                (previousAlertLevel == AlertLevel.NONE ||
+                        currentAlertLevel.getLevel() > previousAlertLevel.getLevel()
+                );
     }
 }
 

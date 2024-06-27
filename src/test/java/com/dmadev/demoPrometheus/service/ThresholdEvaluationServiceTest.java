@@ -2,6 +2,7 @@ package com.dmadev.demoPrometheus.service;
 
 import com.dmadev.demoPrometheus.api.constant.AlertLevel;
 import com.dmadev.demoPrometheus.api.constant.ApiConstants;
+import com.dmadev.demoPrometheus.client.AlertClient;
 import com.dmadev.demoPrometheus.client.PrometheusClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -27,7 +27,7 @@ class ThresholdEvaluationServiceTest {
     private PrometheusClient prometheusClient;
 
     @Mock
-    private AlertService alertService;
+    private AlertClient alertService;
 
     @InjectMocks
     private ThresholdEvaluationService thresholdEvaluationService;

@@ -26,9 +26,9 @@ public class FakeDataService {
 
 
     /**
-     * Метод для генерации указанного количества фейковых сотрудников и сохранения их в базе данных.
+     * A method for generating a specified number of fake employees and storing them in a database.
      *
-     * @param count количество сотрудников для генерации
+     * @param count number of employees for generation
      */
     public void generateFakeEmployees(int count) {
         for (int i = 0; i < count; i++) {
@@ -38,10 +38,10 @@ public class FakeDataService {
 
 
     /**
-     * Приватный метод для создания случайного объекта Employee.
-     * Генерирует случайные значения для имени, фамилии, даты найма и зарплаты.
+     *  Private method to create a random Employee object.
+     * Generates random values for first name, last name, hire date, and salary.
      *
-     * @return сгенерированный объект Employee
+     * @return generated object  Employee
      */
     private void buildRandomEmployee() {
         Employee employee = Employee.builder()
@@ -55,11 +55,11 @@ public class FakeDataService {
 
 
     /**
-     * Генерирует случайную строку длиной от minLength до maxLength символов.
+     * Generates a random string of length from minLength to maxLength characters.
      *
-     * @param minLength минимальная длина строки
-     * @param maxLength максимальная длина строки
-     * @return сгенерированная случайная строка
+     * @param minLength minimum string length
+     * @param maxLength maximum string length
+     * @return generated random string
      */
     private String generateRandomString(int minLength, int maxLength) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -73,7 +73,7 @@ public class FakeDataService {
     }
 
     /**
-     * Метод для начала генерации фейковых сотрудников с интервалом в 5 секунд.
+     * Method to start generating fake employees at 5 second intervals.
      */
     @Async
     public void startGeneratingEmployees() {
@@ -99,7 +99,7 @@ public class FakeDataService {
 
 
     /**
-     * Метод для остановки генерации фейковых данных
+     * Method for stopping the generation of fake data
      */
     public void stopGenerationEmployees() {
         isGenerating.set(false);
@@ -107,9 +107,9 @@ public class FakeDataService {
 
 
     /**
-     * Проверяет, запущен ли процесс генерации сотрудников.
+     * Checks if the employee generation process is running.
      *
-     * @return true, если процесс генерации запущен, иначе false
+     * @return true if the generation process is running, otherwise false
      */
     public boolean isGeneratingEmployees() {
         return isGenerating.get();
